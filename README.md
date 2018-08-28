@@ -3,8 +3,8 @@ On June 12th Todays Meet shut down after 10 years of operations. It is a online 
 
 This project is currently on Stage One, development of front end with basic backend. 
 
-* Stage One * : Centralised server + front end development.
+* Stage One : Centralised server + front end development.
 
-* Stage Two * : Public release
+* Stage Two : Public release
 
-* Stage Three * : Decentralized chatrooms
+* Stage Three : Decentralized chatrooms

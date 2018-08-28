@@ -1,0 +1,65 @@
+/* This is the offical meet-today css file */
+
+html,body {
+    height:100%;
+}
+
+/*IMPORTANT: Color scheme for Meet Today */
+
+p, a, h1, h2, h3, h4, h5, h6 {
+    color: #232528;
+}
+.orange {
+    color: #FFA400;
+}
+.cerulean {
+    color: #009FFD;
+}
+.blue {
+    color: #2A2A72;
+}
+.black {
+    color: #232528;
+}
+.light {
+    color: #EAF6FF;
+}
+
+/*Navbar*/
+.nav-link {
+    color: #FFA400;
+}
+
+.navbar-toggler-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,164,0, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+.nav-colored {
+	background-color: white;
+	transition: background-color 200ms linear;
+}
+.nav-transparent {
+	background-color:transparent;
+	transition: background-color 200ms linear;
+}
+
+/*Banner*/
+.banner {
+    position: relative;
+	width: 100%;
+	height: auto;
+	min-height: 90%;
+    padding: 6rem 0;
+    background-color: #EAF6FF;
+    /*background-image:url('../img/mountain-freepic.jpg');*/
+}
+
+/*Content*/
+.about {
+        background-color: white;
+        position: relative;
+    	width: 100%;
+    	height: auto;
+    	min-height: 90%;
+        padding: 10rem 0;
+}

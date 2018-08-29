@@ -9,11 +9,11 @@
     <div class="container">
         <div class="row">
             <div class="col-8 offset-2">
-                <div class="jumbotron text-center">
+                <div class="jumbotron text-center transparent">
                     <h1 class="display-4">MeetToday</h1>
                     <p class="lead">Engage. Talk. Learn.</p>
                     <hr class="my-4">
-                    <p>TodaysMeet shut down June 12th. This is bigger, better, and built with python.</p>
+                    <p>TodaysMeet shut down June 12th. This is bigger, better, and built with python. Open source on Github, absolutely awesome! Real time chatrooms to all.</p>
                     <p class="lead">
                         <a class="btn btn-primary btn-lg orange" href="/join" role="button">Check it out!</a>
                     </p>
@@ -22,8 +22,106 @@
         </div>
     </div>
 </div>
-<div class="container-fluid about">
-    <center><h1>A title</h1></center>
+
+<div class="container about">
+    <div class="display-3 text-center black">
+        <p>Chat Anywhere. Anytime.</p>
+        <hr class="my-4 black" style="width:35%;height:4px;border:none;color:#333;background-color:#333;">
+    </div>
+        <div class="row" style="padding-top:20px;">
+        <div class="col-md-6">
+            <img class="img-fluid" src="../static/img/about.jpg">
+        </div>
+        <div class="col-md-6">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="feature">
+                            <i class="fas fa-comments"></i>
+                            <h4 class="display-5 black" style="padding-top:5px;">Real Time Chat</h4>
+                            <p class="lead">Just like it was before. No changes.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="feature">
+                            <i class="fas fa-lock-open"></i>
+                            <h4 class="display-5 black" style="padding-top:5px;">Open source</h4>
+                            <p class="lead">Forever free. All code on Github.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="feature">
+                            <i class="fab fa-chrome"></i>
+                            <h4 class="display-5 black" style="padding-top:5px;">Tested</h4>
+                            <p class="lead">On brave. Chrome. And firefox.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="feature">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            <h4 class="display-5 black" style="padding-top:5px;">Educate</h4>
+                            <p class="lead">I guess you could use it for that.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="container-fluid team">
+    <div class="container text-center">
+        <i class="fas fa-user-circle"></i>
+        <div class="lead blue">&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&nbsp;Core Team&nbsp;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;</div>
+    </br>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="text-center">
+                <img src="../static/img/avatar.png">
+                <h1 class="display-4 blue">Mark Li </h1>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="text-center">
+                <img src="../static/img/avatar.png">
+                <h1 class="display-4 blue">Daniel Cai </h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container get-started">
+    <div id="carousel-main" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carousel-main" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-main" data-slide-to="1"></li>
+            <li data-target="#carousel-main" data-slide-to="2"></li>
+         </ol>
+         <div class="carousel-inner">
+             <div class="carousel-item active">
+                  <a href="/create"><img class="d-block w-100" src="../static/img/c1.png" alt="First slide"></a>
+              </div>
+              <div class="carousel-item">
+                  <a href="/join"><img class="d-block w-100" src="../static/img/c2.png" alt="Third slide"></a>
+              </div>
+                <div class="carousel-item">
+                    <a href="/login"><img class="d-block w-100" src="../static/img/c3.png" alt="Third slide"></a>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carousel-main" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carousel-main" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+</div>
+
+{% include '_footer.html' %}
 
 {% endblock %}

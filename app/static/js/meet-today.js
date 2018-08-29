@@ -11,11 +11,13 @@ window.onscroll = function () {
             myNav.classList.add("nav-colored");
             myNav.classList.remove("nav-transparent");
             myNav.classList.add("navbar-light");
+            myNav.classList.add("border-bottom");
         }
         else {
             myNav.classList.add("nav-transparent");
             myNav.classList.remove("nav-colored");
             myNav.classList.remove("navbar-light");
             myNav.classList.remove("navbar-dark");
+            myNav.classList.remove("border-bottom");
         }
     };

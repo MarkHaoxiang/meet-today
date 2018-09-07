@@ -1,5 +1,5 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
-from flask_socketio import SocketIO, send
+from flask_socketio import SocketIO, send, emit, join_room, leave_room
 from flask_mysqldb import MySQL
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, PasswordField, SubmitField, validators
@@ -18,9 +18,41 @@ app.config['MYSQL_PASSWORD'] = 'password'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_DB'] = 'meettoday'
 
+#=======================================================SPACER=============================================================#
+
+@socketio.on('msg')
+def handleMessage(msg,usr,room):
+	emit('msg', (msg,usr), room=room,broadcast=True)
+
+@socketio.on('join')
+def on_join(room):
+    join_room(room)
+
+#=======================================================SPACER=============================================================#
+
+class EntryForm(FlaskForm):
+    uname = StringField("Username",[validators.Length(min=4,max=30)])
+    email = StringField("Email",[validators.Email()])
+    pwd = PasswordField('Password',[
+        validators.DataRequired(),
+        validators.EqualTo('pwdc')
+        ])
+    pwdc = PasswordField('Confirm Password')
+    submit1 = SubmitField('Register')
+
+class LoginForm(FlaskForm):
+    uname = StringField("Username",[validators.Length(min=4,max=30)])
+    pwd = PasswordField('Password',[validators.DataRequired()])
+    submit2 = SubmitField('Login')
+
+class UnameForm(FlaskForm):
+    uname = StringField("Username",[validators.Length(min=1,max=30)])
+    submit3 = SubmitField('Join chat')
+
+#=======================================================SPACER=============================================================#
+
 @app.route('/')
 def index():
-    session['logged_in'] = False
     return render_template("index.html")
 
 @app.route('/dashboard')
@@ -50,20 +82,38 @@ def logout():
     flash('Logged Out', 'success')
     return redirect(url_for('entry'))
 
-class EntryForm(FlaskForm):
-    uname = StringField("Username",[validators.Length(min=4,max=30)])
-    email = StringField("Email",[validators.Email()])
-    pwd = PasswordField('Password',[
-        validators.DataRequired(),
-        validators.EqualTo('pwdc')
-        ])
-    pwdc = PasswordField('Confirm Password')
-    submit1 = SubmitField('Register')
 
-class LoginForm(FlaskForm):
-    uname = StringField("Username",[validators.Length(min=4,max=30)])
-    pwd = PasswordField('Password',[validators.DataRequired()])
-    submit2 = SubmitField('Login')
+@app.route('/chat')
+def join():
+    return render_template("join.html")
+
+@app.route('/chat/<string:id>',methods=['GET','POST'])
+def chat(id):
+    unameForm = UnameForm()
+    try:
+        session['username']
+        if session['username'] == None:
+            try:
+                if session['logged_in']:
+                    session['username'] = session["user"]
+                else:
+                    session['username'] = None
+            except:
+                session['username']= None
+    except:
+        try:
+            if session['logged_in']:
+                session['username'] = session["user"]
+            else:
+                session['username'] = None
+        except:
+            session['username']= None
+
+    if unameForm.submit3.data and unameForm.validate_on_submit():
+        session['username'] = unameForm.uname.data
+        return redirect(url_for('chat',id=id))
+    username = session['username']
+    return render_template("chat.html",id=id,username=username,unameForm=unameForm)
 
 @app.route('/entry',methods=['GET','POST'])
 def entry():
@@ -108,5 +158,7 @@ def entry():
 
     return render_template("entry.html",entryForm=entryForm,loginForm=loginForm)
 
+
 if __name__ == '__main__':
-    socketio.run(app)
+    print("Starting")
+    socketio.run(app,debug=True)

@@ -1,0 +1,121 @@
+{% extends '_layout.html' %}
+{% block body %}
+<!-- Java script for socketio control -->
+<script type="text/javascript">
+$(document).ready(function(){
+
+    var pageURL = window.location.href;
+    var room = pageURL.substr(pageURL.lastIndexOf('/') + 1);
+    var user = "{{username}}";
+    var float = "left";
+
+    var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+
+    function get_msg_html(name, msg, side) {
+                var msg_templet = `
+                    <div class="card message mx-auto">
+                         <div class="card-body">
+                             <h6 class="card-subtitle mb-2 text-muted text-${side}">${name}</h6>
+                             <p class="card-text float-${side}">${msg}</p>
+                         </div>
+                    </div>
+                    <br>
+                    `;
+                return msg_templet;
+            }
+
+    socket.on('connect', function() {
+        console.log("Connected");
+        socket.emit('join',room);
+	});
+
+    socket.on('msg', function(msg,usr) {
+        console.log(usr,user);
+        if (usr == user){
+            float = "right";
+        } else{
+            float = "left";
+        }
+		$("#messages").append(get_msg_html(usr,msg,float));
+	});
+
+    $('#submit').on('click', function() {
+        var msg = $('#message').val();
+		socket.emit('msg', msg, user, room);
+		$('#message').val('');
+	});
+
+})
+</script>
+
+<div class="container">
+    <header class="chat-nav primary-color mx-auto text-center">
+        <h1 style="color:white;opacity:0.8;">MeetToday: {{id}}</h1>
+    </header>
+</div>
+<br>
+<br>
+<div class="container chat">
+    <div class="row chat-messages">
+        <div class="col-md-6 chat-messages">
+            <br>
+            <h1>&nbsp Listen</h1>
+            <div id="messages" class="messages">
+                <br>
+                <div class="card message mx-auto">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted text-left">admin</h6>
+                        <p class="card-text float-left">Hi there. Welcome to the Chatroom {{id}}</p>
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>
+
+        <div class="col-md-6 chat-talk">
+
+            <div class="default-color">
+                <br>
+                <h1 style="color:white;opacity:0.8;">&nbsp Talk</h1>
+            </div>
+            <div class="card">
+                <div class="card-body">
+            {% if username == None %}
+                <div class="chat-login">
+                    <form class="form" action="{{url_for('chat',id=id,username=username,unameForm=unameForm)}}" method="POST">
+                        <div class="md-form">
+                            {{unameForm.uname(class_="form-control form-control-lg")}}
+                            <label for="uname">Join as</label>
+                        </div>
+                        {{unameForm.submit3(class_="btn btn-default btn-lg btn-block w-50 mx-auto")}}
+                        {{unameForm.csrf_token}}
+                        {% if unameForm.errors %}
+                            <ul class="errors">
+                                {% for field_name, field_errors in unameForm.errors|dictsort if field_errors %}
+                                    {% for error in field_errors %}
+                                        <li>{{ unameForm[field_name].label }}: {{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </form>
+                </div>
+            {% endif %}
+            {% if username != None %}
+                <div class="chat-send">
+                    <form class="form" method="POST">
+                        <div class="md-form">
+                            <input type="text" id="message" class="form-control validate">
+                            <label data-error="invalid" data-success="valid" for="message">Message</label>
+                        </div>
+                        <button type="button" class="btn btn-success" id="submit">Send</button>
+                        <br>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+{% endblock %}}

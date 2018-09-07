@@ -98,7 +98,7 @@ p, a, h1, h2, h3, h4, h5, h6 {
 }
 
 .feature i  {
-    color:#009FFD;
+    color:#4285F4;
 
     font-size: 5em;
 }
@@ -114,7 +114,7 @@ p, a, h1, h2, h3, h4, h5, h6 {
     padding-top: 1.5rem;
     padding-bottom: 1rem;
 
-    background-color: #eaf6ff;
+    background-color: #eceff1;
 }
 
 .team img {
@@ -177,9 +177,36 @@ p, a, h1, h2, h3, h4, h5, h6 {
     list-style: none;
 }
 
-/*Dashboard*/
-.card-img-top{
-    width: 200px;
-    height: 200px;
-    margin-top: 10px;
+/*Chat Room*/
+.chat-nav{
+    display: block;
+    min-width: 400px;
+    position: relative;
+    z-index: 3;
+    height: 50px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    border-radius: 0 0 12px 12px;
+}
+
+.chat {
+    height: 100%;
+}
+
+.chat-talk{
+    max-height: 100%;
+}
+
+.chat-messages{
+    height:100%;
+}
+
+.messages{
+    width: 90%;
+    position: absolute;
+    height: 60%;
+    overflow-y: scroll;
+}
+
+.message{
+    width: 90%;
 }

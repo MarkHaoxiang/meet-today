@@ -1,6 +1,4 @@
 
-// Front end
-
 //Scrolling navbar
 console.log("meet-today.js loaded")
 var myNav = document.getElementById("mynav");

@@ -69,6 +69,20 @@ $(document).ready(function(){
                     </div>
                 </div>
                 <br>
+                {% for msg in messages %}
+                    <div class="card message mx-auto">
+                        <div class="card-body">
+                            {% if msg[0]==username %}
+                            <h6 class="card-subtitle mb-2 text-muted text-right">{{msg[0]}}</h6>
+                            <p class="card-text float-right">{{msg[1]}}</p>
+                            {% else %}
+                            <h6 class="card-subtitle mb-2 text-muted text-left">{{msg[0]}}</h6>
+                            <p class="card-text float-left">{{msg[1]}}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <br>
+                {% endfor %}
             </div>
         </div>
 

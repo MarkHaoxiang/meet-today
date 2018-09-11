@@ -32,6 +32,17 @@ def handleMessage(msg,usr,room):
 def on_join(room):
     join_room(room)
 
+@socketio.on('clear')
+def clear(usr,room):
+    cur = mysql.connect.cursor()
+    cur.execute('SELECT author_id FROM rooms WHERE room_name=%s',(room,))
+    author = cur.fetchone()
+    cur.execute('SELECT id FROM users WHERE username=%s',(usr,))
+    creator = cur.fetchone()
+    if author == creator:
+        open("rooms/"+room+".txt", "w").close()
+    cur.close()
+
 #=======================================================SPACER=============================================================#
 
 class EntryForm(FlaskForm):
@@ -81,6 +92,7 @@ def account():
     email = user[1]
     date = user[4]
     if request.method=='POST':
+        print("Recieved")
         cur = mysql.connection.cursor()
         #Create the room
         data = request.values
@@ -88,12 +100,20 @@ def account():
         roomTime = int(data["time"])
         roomAuthor = session['user']
         roomLog = roomName + ".txt"
+        if data["public"] == "true":
+            roomPublic = True
+            print("True")
+        else:
+            roomPublic = False
+
         cur.execute('SELECT*FROM rooms WHERE room_name=%s',(roomName,))
         query = cur.fetchone()
+        print(query)
         if query == None:
+            print("Inserting")
             cur.execute('SELECT id FROM users WHERE username=%s',(roomAuthor,))
             roomAuthorID = cur.fetchone()
-            cur.execute('INSERT INTO rooms(author_id,room_name,text,run_time) VALUES (%s,%s,%s,%s)',(roomAuthorID,roomName,roomLog,roomTime))
+            cur.execute('INSERT INTO rooms(author_id,room_name,text,run_time,public) VALUES (%s,%s,%s,%s,%s)',(roomAuthorID,roomName,roomLog,roomTime,roomPublic))
             mysql.connection.commit()
             cur.execute('SELECT*FROM rooms')
             query = cur.fetchall();
@@ -126,7 +146,11 @@ def logout():
 #List of all public chatrooms/a button to join a chatroom
 @app.route('/chat')
 def join():
-    return render_template("join.html")
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT*FROM rooms WHERE public = TRUE")
+    publicRooms = cur.fetchall()
+    cur.close()
+    return render_template("join.html",publicRooms=publicRooms)
 
 #A chat room
 @app.route('/invalid')
@@ -143,6 +167,10 @@ def chat(id):
         return redirect(url_for('invalid'))
     #Get log of txt
     path = "rooms/"+result[3]
+    creator_id = result[1]
+    cur.execute('SELECT username FROM users WHERE id=%s',(creator_id,))
+    l = cur.fetchone()
+    creator = l[0]
     messages = [] #The stored messages of the chat room
     f = open(path, "r")
     for line in f:
@@ -152,6 +180,13 @@ def chat(id):
     cur.close()
     #Page Forms
     unameForm = UnameForm()
+    loggedIn = False
+    try:
+        if session['logged_in']:
+            loggedIn = True
+    except:
+        loggedIn = False
+
     try:
         session['username']
         if session['username'] == None:
@@ -175,7 +210,8 @@ def chat(id):
         session['username'] = unameForm.uname.data
         return redirect(url_for('chat',id=id))
     username = session['username']
-    return render_template("chat.html",id=id,username=username,unameForm=unameForm,messages=messages)
+    print(loggedIn,creator)
+    return render_template("chat.html",id=id,username=username,unameForm=unameForm,messages=messages,loggedIn=loggedIn,creator=creator)
 
 
 #Login and register

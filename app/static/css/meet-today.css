@@ -5,25 +5,8 @@ html,body {
     width: 100%;
 }
 
-/*IMPORTANT: Color scheme for Meet Today */
-
-p, a, h1, h2, h3, h4, h5, h6 {
-    color: #232528;
-}
-.orange {
-    color: #FFA400;
-}
 .cerulean {
-    color: #009FFD;
-}
-.blue {
-    color: #2A2A72;
-}
-.black {
-    color: #232528;
-}
-.light {
-    color: #eaf6ff;
+    color: #007BA7;
 }
 
 .white {
@@ -103,8 +86,8 @@ p, a, h1, h2, h3, h4, h5, h6 {
     font-size: 5em;
 }
 
-/*Team + links*/
-.team {
+/*Tutorial + links*/
+.tutorial {
     position: relative;
 
     width: 100%;
@@ -115,19 +98,6 @@ p, a, h1, h2, h3, h4, h5, h6 {
     padding-bottom: 1rem;
 
     background-color: #eceff1;
-}
-
-.team img {
-    position: relative;
-
-    width: 30%;
-    height: auto;
-}
-
-.team i  {
-    color:#2A2A72;
-    font-size: 3em;
-    padding-bottom: 10px;
 }
 
 .line {
@@ -149,32 +119,35 @@ p, a, h1, h2, h3, h4, h5, h6 {
         background-color: white;
 }
 
-/*Footer*/
-.footer {
-    bottom: 0;
-    width: 100%;
-    height: 55px;
-    background-color: #232528;
-    padding-top: 10px;
-}
-
-.footer p {
-    color: white;
-}
-
 /*Entry page"*/
 .entry-block {
     min-height: 100%;
     width:100%;
-    background-image: url(../img/computer.jpeg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: right;
     padding-left: 0%;
     padding-right: 0%;
+    background-image: url('../img/computer.jpeg');
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: cover;
 }
+
 .alert {
     list-style: none;
+}
+
+.full{
+    padding: 0px !important;
+}
+
+#submit2 {
+    height: 100%;
+    width: 100%;
+    padding: 2rem 2.4rem;
+}
+#submit1 {
+    height: 100%;
+    width: 100%;
+    padding: 2rem 2.4rem;
 }
 
 /*Chat Room*/
@@ -209,4 +182,20 @@ p, a, h1, h2, h3, h4, h5, h6 {
 
 .message{
     width: 90%;
+}
+
+/*Join*/
+.join-block {
+    min-height: 100%;
+    width:100%;
+    padding-left: 0%;
+    padding-right: 0%;
+    background-image: url('../img/computer.jpeg');
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: cover;
+}
+
+.opaque {
+    opacity: 1;
 }

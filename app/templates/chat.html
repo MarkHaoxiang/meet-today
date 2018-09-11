@@ -45,10 +45,13 @@ $(document).ready(function(){
 		$('#message').val('');
 	});
 
+    $('#clear').on('click', function() {
+        socket.emit('clear', user, room);
+        window.setTimeout(location.reload(),1000);
+    });
 })
 </script>
-
-<div class="container">
+<div class="container animated fadeInDown">
     <header class="chat-nav primary-color mx-auto text-center">
         <h1 style="color:white;opacity:0.8;">MeetToday: {{id}}</h1>
     </header>
@@ -57,7 +60,7 @@ $(document).ready(function(){
 <br>
 <div class="container chat">
     <div class="row chat-messages">
-        <div class="col-md-6 chat-messages">
+        <div class="col-sm-6 chat-messages animated fadeInLeft">
             <br>
             <h1>&nbsp Listen</h1>
             <div id="messages" class="messages">
@@ -86,7 +89,7 @@ $(document).ready(function(){
             </div>
         </div>
 
-        <div class="col-md-6 chat-talk">
+        <div class="col-sm-6 chat-talk animated fadeInRight">
 
             <div class="default-color">
                 <br>
@@ -129,7 +132,20 @@ $(document).ready(function(){
             {% endif %}
         </div>
     </div>
+            {% if loggedIn %}
+                {% if username == creator %}
+                    <br>
+                    <div class="chat-admin">
+                        <div class="card">
+                            <div class="card-body">
+                                    <h1>&nbsp Admin Panel</h1>
+
+                                <button type="button" class="btn btn-warning" style="width: 300px;"id="clear">Clear Messages (needs refresh)</button>
+                                </div>
+                            </div>
+                        </div>
+                {% endif %}
+            {% endif %}
         </div>
-    </div>
 </div>
-{% endblock %}}
+{% endblock %}

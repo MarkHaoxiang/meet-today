@@ -1,0 +1,52 @@
+{% extends '_layout.html' %}
+
+{% block body %}
+
+{% include '_navbar-short.html' %}
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+    $('#submit').on('click', function() {
+        var room = $('#join-room').val();
+        if ($('#join-room').val() != ""){
+        window.location = "/chat/"+room;
+    } else {
+        alert("Field cannot be empty. Enter the room name to join.");
+    }
+	});
+
+})
+</script>
+
+<div class="container-fluid join-block">
+    <div style="height: 100vh">
+        <div class="flex-center flex-column">
+            <h1 class="animated fadeIn mb-4">Join a room</h1>
+
+            <div class="md-form form-lg animated fadeIn" style="margin:0px;width:300px;">
+                <input type="text" id="join-room" class="form-control validate" required minlength="1" maxlength="30">
+                <label data-error="invalid" data-success="valid" for="join-room">http://127.0.0.1:5000/chat/</label>
+            </div>
+            <button class="btn btn-primary" id="submit">Join</button>
+            <p class="animated fadeIn text-muted">Or scroll down to check out public rooms</p>
+        </div>
+    </div>
+</div>
+<div class="container">
+        {% for i in publicRooms %}
+            <div class="card" style="width:20%; min-width: 200px; margin:20px; display:inline-block;">
+                <div class="view overlay">
+                    <img class="card-img-top" src="../static/img/spacex.jpg" alt="Card image cap">
+                    <a href="#!">
+                        <div class="mask rgba-white-slight"></div>
+                    </a>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">{{i[2]}}</h4>
+                    <a href="/chat/{{i[2]}}"><button type="button" class="btn btn-light-blue btn-md">Join room</button></a>
+                </div>
+            </div>
+        {% endfor %}
+</div>
+{% endblock %}

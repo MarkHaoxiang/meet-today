@@ -6,21 +6,31 @@
 $(document).ready(function(){
     var dict = {};
     $('#submit').on('click', function() {
-        dict.name = $('#form-room').val();
-        dict.time = $('#form-time').val();
-        $.post( "/dashboard", {
-            name: dict.name,
-            time: dict.time
-        });
-        window.setTimeout(function(){ window.location = "/chat/"+dict.name; },1000);
+        if ($('#form-room').val() != ""){
+            if ($('#public').is(":checked"))
+            {
+                dict.public = true;
+            } else {
+                dict.public = false;
+            }
+            console.log(dict.public)
+            dict.name = $('#form-room').val();
+            dict.time = $('#form-time').val();
+            $.post( "/dashboard", {
+                name: dict.name,
+                time: dict.time,
+                public: dict.public
+            });
+            window.setTimeout(function(){ window.location = "/chat/"+dict.name; },1000);
+        };
 	});
 });
 </script>
 
 {% include '_navbar-short.html' %}
 
-<div class="container-fluid entry-block py-5">
-    <div class="card  mx-auto" style="width: 400px;margin-top:70px;">
+<div class="container-fluid join-block py-5">
+    <div class="card mx-auto" style="width: 400px;margin-top:70px;">
         <div class="view overlay">
             <img class="card-img-top" src="../static/img/profile.jpg" alt="Card image cap">
             <a>
@@ -62,6 +72,11 @@ $(document).ready(function(){
                                     <label data-error="invalid" data-success="valid" for="form-time">Duration</label>
                                 </div>
 
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="public" checked>
+                                    <label class="custom-control-label" for="public">Public</label>
+                                </div>
+
                             </div>
                             <div class="modal-footer d-flex justify-content-center">
                                 <button class="btn btn-default" id="submit">Create</button>
@@ -74,7 +89,5 @@ $(document).ready(function(){
       </div>
       <br>
 </div>
-
-{% include '_footer.html' %}
 
 {% endblock %}

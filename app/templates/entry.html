@@ -4,20 +4,25 @@
 
 {% include '_navbar-short.html' %}
 
+<script>
+$(document).ready(function(){
+});
+</script>
+
 <div class="container-fluid entry-block">
-    <div class="container">
+<div class="container">
     <div class="row">
         <div class="col-md-12">
-            <br><br><br><br>
+            <br><br><br><br><br>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 animated fadeInLeft" id="register">
                     <!-- form card register -->
-                    <div class="card">
+                    <div class="card" id="register-form">
                         <div class="card-header">
                             <h3 class="mb-0">Register</h3>
                         </div>
                         <div class="card-body">
-                            <form class="form" action="{{url_for('entry')}}" method="POST">
+                            <form class="form" style="opacity:1;" action="{{url_for('entry')}}" method="POST">
                                 <div class="md-form">
                                     {{entryForm.uname(class_="form-control form-control-lg",id_="uname")}}
                                     <label for="uname">Username</label>
@@ -34,7 +39,7 @@
                                     {{entryForm.pwdc(class_="form-control form-control-lg",id_="{pwdc}")}}
                                     <label for="pwdc">Confirm Password</label>
                                 </div>
-                                {{entryForm.submit1(class_="btn btn-primary btn-lg btn-block")}}
+                                {{entryForm.submit1(class_="btn btn-primary btn-lg opaque btn-block full")}}
                                 {{entryForm.csrf_token}}
                                 {% if entryForm.errors %}
                                     <ul class="errors">
@@ -48,11 +53,12 @@
                             </form>
                         </div>
                     </div>
+                    <br>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-6 animated fadeInRight" id="login">
                     <!-- form card login -->
-                    <div class="card">
+                    <div class="card" id="login-form">
                         <div class="card-header">
                             <h3 class="mb-0">Login</h3>
                         </div>
@@ -66,13 +72,22 @@
                                     {{loginForm.pwd(class_="form-control form-control-lg",id_="pwd")}}
                                     <label for="pwd">Password</label>
                                 </div>
-                                {{ loginForm.submit2(class_="btn btn-primary btn-lg btn-block")}}
+                                {{ loginForm.submit2(class_="btn btn-primary opaque btn-lg btn-block full")}}
                                 {{ loginForm.csrf_token }}
                             </form>
                         </div>
                     </div>
                     <br>
                     <!-- Message flashing -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                        <ul class=flashes>
+                            {% for category, message in messages %}
+                            <li class="alert alert-{{ category }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    {% endwith %}
                 </div>
             </div>
         </div>
@@ -80,6 +95,5 @@
 </div>
 </div>
 
-{% include '_footer.html' %}
 
 {% endblock %}

@@ -4,6 +4,15 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
+    const messages = document.getElementById('messages');
+
+    function scrollToBottom() {
+        messages.scrollTop = messages.scrollHeight;
+    }
+    scrollToBottom();
+
+    //Space ==================================================
+
     var pageURL = window.location.href;
     var room = pageURL.substr(pageURL.lastIndexOf('/') + 1);
     var user = "{{username}}";
@@ -30,13 +39,16 @@ $(document).ready(function(){
 	});
 
     socket.on('msg', function(msg,usr) {
-        console.log(usr,user);
+        shouldScroll = messages.scrollTop + messages.clientHeight === messages.scrollHeight;
         if (usr == user){
             float = "right";
         } else{
             float = "left";
         }
 		$("#messages").append(get_msg_html(usr,msg,float));
+        if (shouldScroll) {
+            scrollToBottom();
+            }
 	});
 
     $('#submit').on('click', function() {
@@ -104,7 +116,7 @@ $(document).ready(function(){
                             {{unameForm.uname(class_="form-control form-control-lg")}}
                             <label for="uname">Join as</label>
                         </div>
-                        {{unameForm.submit3(class_="btn btn-default btn-lg btn-block w-50 mx-auto")}}
+                        {{unameForm.submit3(class_="btn btn-default btn-lg btn-block full")}}
                         {{unameForm.csrf_token}}
                         {% if unameForm.errors %}
                             <ul class="errors">
@@ -128,6 +140,8 @@ $(document).ready(function(){
                         <button type="button" class="btn btn-success" id="submit">Send</button>
                         <br>
                     </form>
+                    <h1> QR Code </h1>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data= + http://cuboid.tech/chat/{{id}}">
                 </div>
             {% endif %}
         </div>

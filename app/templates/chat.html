@@ -4,6 +4,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
+    var converter = new showdown.Converter();
     const messages = document.getElementById('messages');
 
     function scrollToBottom() {
@@ -21,17 +22,18 @@ $(document).ready(function(){
     var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 
     function get_msg_html(name, msg, side) {
-                var msg_templet = `
-                    <div class="card message mx-auto">
-                         <div class="card-body">
-                             <h6 class="card-subtitle mb-2 text-muted text-${side}">${name}</h6>
-                             <p class="card-text float-${side}">${msg}</p>
-                         </div>
-                    </div>
-                    <br>
-                    `;
-                return msg_templet;
-            }
+        msg = converter.makeHtml(msg);
+        var msg_templet = `
+            <div class="card message mx-auto">
+                 <div class="card-body">
+                     <h6 class="card-subtitle mb-2 text-muted text-${side}">${name}</h6>
+                     <p class="card-text float-${side}">${msg}</p>
+                 </div>
+            </div>
+            <br>
+            `;
+        return msg_templet;
+        }
 
     socket.on('connect', function() {
         console.log("Connected");

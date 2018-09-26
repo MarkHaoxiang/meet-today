@@ -22,7 +22,6 @@ $(document).ready(function(){
     var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 
     function get_msg_html(name, msg, side) {
-        msg = converter.makeHtml(msg);
         var msg_templet = `
             <div class="card message mx-auto">
                  <div class="card-body">
@@ -55,6 +54,7 @@ $(document).ready(function(){
 
     $('#submit').on('click', function() {
         var msg = $('#message').val();
+        msg = converter.makeHtml(msg);
 		socket.emit('msg', msg, user, room);
 		$('#message').val('');
 	});

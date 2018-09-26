@@ -6,7 +6,7 @@
 $(document).ready(function(){
     var dict = {};
     $('#submit').on('click', function() {
-        if ($('#form-room').val() != "" && $('#form-time').val() != ""){
+        if ( document.getElementById("form-room").checkValidity() && document.getElementById("form-room").checkValidity()){
             if ($('#public').is(":checked"))
             {
                 dict.public = true;

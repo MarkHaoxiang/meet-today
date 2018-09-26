@@ -4,6 +4,7 @@ from flask_mysqldb import MySQL
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, PasswordField, SubmitField, validators
 import os
+import urllib
 from passlib.hash import pbkdf2_sha256
 
 app = Flask(__name__)
@@ -97,6 +98,7 @@ def account():
         #Create the room
         data = request.values
         roomName = data["name"]
+        roomName = urllib.parse.quote(roomName)
         roomTime = int(data["time"])
         roomAuthor = session['user']
         roomLog = roomName + ".txt"
@@ -160,8 +162,9 @@ def invalid():
 @app.route('/chat/<string:id>',methods=['GET','POST'])
 def chat(id):
     #Validate if chatroom exists
+    text = urllib.parse.quote(id)
     cur = mysql.connection.cursor()
-    cur.execute('SELECT*FROM rooms WHERE room_name=%s',(id,))
+    cur.execute('SELECT*FROM rooms WHERE room_name=%s',(text,))
     result = cur.fetchone()
     if result == None:
         return redirect(url_for('invalid'))
@@ -210,7 +213,6 @@ def chat(id):
         session['username'] = unameForm.uname.data
         return redirect(url_for('chat',id=id))
     username = session['username']
-    print(loggedIn,creator)
     return render_template("chat.html",id=id,username=username,unameForm=unameForm,messages=messages,loggedIn=loggedIn,creator=creator)
 
 
